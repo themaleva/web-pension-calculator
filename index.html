@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>UK Pension Calculator</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <h1>UK Pension Calculator</h1>
+        
+        <!-- Form for user inputs -->
+        <form id="pension-calculator-form">
+            <div class="input-group">
+                <label for="current-age">Current Age:</label>
+                <input type="number" id="current-age" name="current-age" required>
+            </div>
+            
+            <div class="input-group">
+                <label for="current-salary">Current Salary (£):</label>
+                <input type="number" id="current-salary" name="current-salary" required>
+            </div>
+
+            <div class="input-group">
+                <label for="current-pension-pot">Current Pension Pot (£):</label>
+                <input type="number" id="current-pension-pot" name="current-pension-pot" required>
+            </div>
+
+            <div class="input-group">
+                <label for="retirement-age">Retirement Age:</label>
+                <input type="number" id="retirement-age" name="retirement-age" required>
+            </div>
+
+            <div class="input-group">
+                <label for="salary-growth">Salary Growth (%):</label>
+                <input type="number" step="0.01" id="salary-growth" name="salary-growth" required>
+            </div>
+
+            <div class="input-group">
+                <label for="employee-contribution">Employee Contribution (%):</label>
+                <input type="number" step="0.01" id="employee-contribution" name="employee-contribution" required>
+            </div>
+
+            <div class="input-group">
+                <label for="employer-contribution">Employer Contribution (%):</label>
+                <input type="number" step="0.01" id="employer-contribution" name="employer-contribution" required>
+            </div>
+
+            <div class="checkbox-group">
+                <div class="checkbox-container">
+                  <input type="checkbox" id="avoid-40-tax" name="avoid-40-tax">
+                  <label for="avoid-40-tax">Avoid 40% Tax?</label>
+                </div>
+                <div class="checkbox-container">
+                  <input type="checkbox" id="avoid-100k-tax-trap" name="avoid-100k-tax-trap">
+                  <label for="avoid-100k-tax-trap">Avoid £100k tax trap</label>
+                </div>
+            </div>
+
+            <div class="button-container">
+                <button type="button" id="calculate-btn">Calculate</button>
+            </div>
+        </form>
+
+        <!-- Placeholder for results table -->
+        <table id="results-table" style="display:none;">
+            <thead>
+                <tr>
+                    <th>Age</th>
+                    <th>Current Salary</th>
+                    <th>Employee Contributions</th>
+                    <th>Employer Contributions</th>
+                    <th>Total Contributions</th>
+                    <th>Pot Balance</th>
+                    <th>2% Growth</th>
+                    <th>4% Growth</th>
+                    <th>6% Growth</th>
+                </tr>
+            </thead>
+            <tbody id="results-table-body">
+                <!-- Results will be inserted here by scripts.js -->
+            </tbody>
+        </table>
+
+        <!-- Placeholder for the chart (optional) -->
+        <div id="chart-container" style="display:none;">
+            <canvas id="myChart" width="400" height="400"></canvas>
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="scripts.js"></script>
+</body>
+</html>
