@@ -92,14 +92,15 @@ document.getElementById("calculate-btn").addEventListener("click", function() {
         // Add rows to the results table
         var row = resultsBody.insertRow();
         row.insertCell(0).innerText = age;
-        row.insertCell(1).innerText = `£${currentSalary.toFixed(2)}`;
-        row.insertCell(2).innerText = `£${employeeContributionVal.toFixed(2)}`;
-        row.insertCell(3).innerText = `£${employerContributionVal.toFixed(2)}`;
-        row.insertCell(4).innerText = `£${totalContributions.toFixed(2)}`;
-        row.insertCell(5).innerText = `£${currentPensionPot.toFixed(2)}`;
-        row.insertCell(6).innerText = `£${twoPercentGrowth.toFixed(2)}`;
-        row.insertCell(7).innerText = `£${fourPercentGrowth.toFixed(2)}`;
-        row.insertCell(8).innerText = `£${sixPercentGrowth.toFixed(2)}`;
+        row.insertCell(1).innerText = `£${currentSalary.toLocaleString('en-GB', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
+        row.insertCell(2).innerText = `£${employeeContributionVal.toLocaleString('en-GB', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
+        row.insertCell(3).innerText = `£${employerContributionVal.toLocaleString('en-GB', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
+        row.insertCell(4).innerText = `£${totalContributions.toLocaleString('en-GB', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
+        row.insertCell(5).innerText = `£${currentPensionPot.toLocaleString('en-GB', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
+        row.insertCell(6).innerText = `£${twoPercentGrowth.toLocaleString('en-GB', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
+        row.insertCell(7).innerText = `£${fourPercentGrowth.toLocaleString('en-GB', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
+        row.insertCell(8).innerText = `£${sixPercentGrowth.toLocaleString('en-GB', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
+
 
         // Add data to the arrays for the chart
         labels.push(age);
