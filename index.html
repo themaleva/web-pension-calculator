@@ -88,6 +88,67 @@
             <canvas id="myChart" width="400" height="400"></canvas>
         </div>
     </div>
+
+    <!-- The Modal -->
+    <div id="myModal" class="modal">
+        <!-- Modal content -->
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2>Pension Growth</h2>
+            <table id="modal-table" class="modal-table">
+                <thead>
+                    <tr>
+                        <th>2% Growth</th>
+                        <th>4% Growth</th>
+                        <th>6% Growth</th>
+                    </tr>
+                </thead>
+                <tbody>
+                <!-- The data rows will be inserted here by JavaScript -->
+                </tbody>
+            </table>
+            <h2>Pension Options</h2>
+            <form id="pension-options-form">
+                <div class="checkbox-group">
+                    <input type="checkbox" id="tax-free" name="tax-free">
+                    <label for="tax-free">Take 25% tax-free?</label>
+                </div>
+                <div class="input-group">
+                    <label for="drawdown">Preferred Drawdown %:</label>
+                    <input type="number" id="drawdown" name="drawdown" min="0" max="100" step="1">
+                </div>
+                    <div class="button-container">
+                    <button type="button" id="see-pension-income">See Pension Income</button>
+                </div>
+            </form>
+            <!-- Table For Displaying Pension Income Projections -->
+            <table id="calculationsTable" class="modal-table">
+            <thead>
+                <tr>
+                    <th></th>
+                    <th>2% Growth</th>
+                    <th>4% Growth</th>
+                    <th>6% Growth</th>
+                </tr>
+                <!-- Rows for tax-free lump sum and annual drawdown -->
+                <tr>
+                    <td>Tax Free Lump Sum</td>
+                    <td id="taxFreeLumpSum2"></td>
+                    <td id="taxFreeLumpSum4"></td>
+                    <td id="taxFreeLumpSum6"></td>
+                </tr>
+                <tr>
+                    <td>Annual Drawdown</td>
+                    <td id="annualDrawdown2"></td>
+                    <td id="annualDrawdown4"></td>
+                    <td id="annualDrawdown6"></td>
+                </tr>
+            </tbody>
+            </table>
+        </div>
+  </div>
+  
+
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="scripts.js"></script>
 </body>

@@ -1,9 +1,10 @@
-document.getElementById("calculate-btn").addEventListener("click", function() {
-    // Constants
-    const MAX_CONTRIBUTIONS = 60000;
-    const INCOME_THRESHOLD_40_PCT = 50270;
-    const TAX_TRAP_THRESHOLD = 100000;
+const MAX_CONTRIBUTIONS = 60000;
+const INCOME_THRESHOLD_40_PCT = 50270;
+const TAX_TRAP_THRESHOLD = 100000;
+const MAX_TAX_FREE = 268275;
 
+
+document.getElementById("calculate-btn").addEventListener("click", function() {
     // Variables to hold data for the chart
     var labels = [];
     var currentPensionData = [];
@@ -101,51 +102,85 @@ document.getElementById("calculate-btn").addEventListener("click", function() {
         row.insertCell(7).innerText = `£${fourPercentGrowth.toLocaleString('en-GB', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
         row.insertCell(8).innerText = `£${sixPercentGrowth.toLocaleString('en-GB', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
 
-
-        // Add data to the arrays for the chart
-        labels.push(age);
-        currentPensionData.push(currentPensionPot);
-        twoPercentGrowthData.push(twoPercentGrowth);
-        fourPercentGrowthData.push(fourPercentGrowth);
-        sixPercentGrowthData.push(sixPercentGrowth);
     }
+    addRowClickEvents();
 });
 
-
-function drawChart() {
-    var ctx = document.getElementById('myChart').getContext('2d');
-    var myChart = new Chart(ctx, {
-      type: 'line',
-      data: {
-        labels: labels,
-        datasets: [{
-          label: 'Current Pension Pot',
-          data: currentPensionData,
-          borderColor: 'rgba(255, 99, 132, 1)',
-          borderWidth: 1
-        }, {
-          label: '2% Growth',
-          data: twoPercentGrowthData,
-          borderColor: 'rgba(54, 162, 235, 1)',
-          borderWidth: 1
-        }, {
-          label: '4% Growth',
-          data: fourPercentGrowthData,
-          borderColor: 'rgba(75, 192, 192, 1)',
-          borderWidth: 1
-        }, {
-          label: '6% Growth',
-          data: sixPercentGrowthData,
-          borderColor: 'rgba(153, 102, 255, 1)',
-          borderWidth: 1
-        }]
-      },
-      options: {
-        scales: {
-          y: {
-            beginAtZero: true
-          }
-        }
-      }
+// Add event listeners to rows
+function addRowClickEvents() {
+  const table = document.getElementById('results-table');
+  const rows = table.getElementsByTagName('tr');
+  for (let i = 1; i < rows.length; i++) { // Start from 1 to skip the header
+    rows[i].addEventListener('click', function() {
+      populateAndShowModal(this);
     });
   }
+}
+
+// Function to populate the modal and show it
+function populateAndShowModal(row) {
+  // Extract the growth values from the row
+  const twoPercentGrowth = row.cells[row.cells.length - 3].innerText;
+  const fourPercentGrowth = row.cells[row.cells.length - 2].innerText;
+  const sixPercentGrowth = row.cells[row.cells.length - 1].innerText;
+
+  // Populate the modal table
+  const modalTableBody = document.getElementById('modal-table').querySelector('tbody');
+  modalTableBody.innerHTML = `
+    <tr>
+      <td id="growthValue2">${twoPercentGrowth}</td>
+      <td id="growthValue4">${fourPercentGrowth}</td>
+      <td id="growthValue6">${sixPercentGrowth}</td>
+    </tr>
+  `;
+
+  // Show the modal
+  const modal = document.getElementById('myModal');
+  modal.style.display = "block";
+
+  // When the user clicks on <span> (x), close the modal
+  modal.querySelector('.close').onclick = function() {
+    modal.style.display = "none";
+  };
+}
+
+// Close modal if user clicks outside of it
+window.onclick = function(event) {
+  const modal = document.getElementById('myModal');
+  if (event.target === modal) {
+    modal.style.display = "none";
+  }
+}
+
+function parseCurrencyToNumber(currencyStr) {
+  return parseFloat(currencyStr.replace(/[^0-9.-]+/g, "")) || 0;
+}
+
+document.getElementById('see-pension-income').addEventListener('click', function() {
+  // Get the growth values from the table in the modal
+  const growthValues = {
+    '2': parseCurrencyToNumber(document.getElementById('growthValue2').textContent),
+    '4': parseCurrencyToNumber(document.getElementById('growthValue4').textContent),
+    '6': parseCurrencyToNumber(document.getElementById('growthValue6').textContent)
+  };
+
+  const drawdownInput = document.getElementById('drawdown').value;
+  const drawdown_percentage = drawdownInput ? parseCurrencyToNumber(drawdownInput) / 100 : 0;
+  const taxFreeCheckbox = document.getElementById('tax-free').checked;
+
+  // Perform calculations for each growth value
+  Object.keys(growthValues).forEach(growth => {
+    const original_value = growthValues[growth];
+    let tax_free_lump_sum = taxFreeCheckbox ? Math.min(original_value * 0.25, MAX_TAX_FREE) : 0;
+    let left_for_drawdown = original_value - tax_free_lump_sum;
+    let annual_drawdown = left_for_drawdown * drawdown_percentage;
+
+    // Populate the calculations table with results
+    document.getElementById(`taxFreeLumpSum${growth}`).textContent = `£${tax_free_lump_sum.toLocaleString('en-GB', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
+    document.getElementById(`annualDrawdown${growth}`).textContent = `£${annual_drawdown.toLocaleString('en-GB', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
+  });
+
+  // Show the calculations table
+  document.getElementById('calculationsTable').style.display = 'table';
+});
+
