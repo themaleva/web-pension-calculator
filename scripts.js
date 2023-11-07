@@ -140,6 +140,7 @@ function populateAndShowModal(row) {
 
   // When the user clicks on <span> (x), close the modal
   modal.querySelector('.close').onclick = function() {
+    clearCalculationsTable();
     modal.style.display = "none";
   };
 }
@@ -149,6 +150,7 @@ window.onclick = function(event) {
   const modal = document.getElementById('myModal');
   if (event.target === modal) {
     modal.style.display = "none";
+    clearCalculationsTable();
   }
 }
 
@@ -184,3 +186,18 @@ document.getElementById('see-pension-income').addEventListener('click', function
   document.getElementById('calculationsTable').style.display = 'table';
 });
 
+// Function to clear the fields in the calculations table
+function clearCalculationsTable() {
+    // Clear Tax Free Lump Sum fields
+    document.getElementById('taxFreeLumpSum2').textContent = '';
+    document.getElementById('taxFreeLumpSum4').textContent = '';
+    document.getElementById('taxFreeLumpSum6').textContent = '';
+
+    // Clear Annual Drawdown fields
+    document.getElementById('annualDrawdown2').textContent = '';
+    document.getElementById('annualDrawdown4').textContent = '';
+    document.getElementById('annualDrawdown6').textContent = '';
+
+    // Hide the calculations table container
+    document.getElementById('calculationsTable').style.display = 'none';
+};
