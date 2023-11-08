@@ -65,20 +65,24 @@ document.getElementById("calculate-btn").addEventListener("click", function() {
         employeeContributionVal += bonusContributionVal;
 
         // Adjusting employee contribution if the "Avoid 40% Tax" is checked
-        if (avoid40Tax && (currentSalary - employeeContributionVal) > INCOME_THRESHOLD_40_PCT) {
-            employeeContributionVal = currentSalary - INCOME_THRESHOLD_40_PCT;
+        if (avoid40Tax && (currentSalary + annualBonus - employeeContributionVal) > INCOME_THRESHOLD_40_PCT) {
+          employeeContributionVal = (currentSalary + annualBonus) - INCOME_THRESHOLD_40_PCT;
         }
 
         // Adjusting employee contribution if the "Avoid £100k tax trap" is checked
-        if (avoid100kTaxTrap && (currentSalary - employeeContributionVal) > TAX_TRAP_THRESHOLD) {
-            employeeContributionVal = currentSalary - TAX_TRAP_THRESHOLD;
+        if (avoid100kTaxTrap && (currentSalary + annualBonus - employeeContributionVal) > TAX_TRAP_THRESHOLD) {
+          employeeContributionVal = (currentSalary + annualBonus) - TAX_TRAP_THRESHOLD;
         }
 
+        // Recalculate total contributions after potential tax adjustments
         var totalContributions = employeeContributionVal + employerContributionVal;
+
+        // Ensure total contributions do not exceed the maximum limit
         if (totalContributions > MAX_CONTRIBUTIONS) {
-            totalContributions = MAX_CONTRIBUTIONS;
-            // Readjust the employee contribution if the bonus pushes it over the limit
-            employeeContributionVal = MAX_CONTRIBUTIONS - employerContributionVal;
+          // If total contributions exceed the limit, adjust the employee's contribution
+          employeeContributionVal = MAX_CONTRIBUTIONS - employerContributionVal;
+          // Set total contributions to the max allowed
+          totalContributions = MAX_CONTRIBUTIONS;
         }
 
         if (age != currentAge) {
