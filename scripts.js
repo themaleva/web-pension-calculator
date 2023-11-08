@@ -20,6 +20,8 @@ document.getElementById("calculate-btn").addEventListener("click", function() {
     var employeeContributionPct = parseFloat(document.getElementById('employee-contribution').value) / 100;
     var employerContributionPct = parseFloat(document.getElementById('employer-contribution').value) / 100;
     var currentPensionPot = parseFloat(document.getElementById('current-pension-pot').value);
+    var annualBonus = parseFloat(document.getElementById('annual-bonus').value);
+    var bonusContributionPct = parseFloat(document.getElementById('bonus-contribution').value) / 100;
 
     var avoid40Tax = document.getElementById('avoid-40-tax').checked;
     var avoid100kTaxTrap = document.getElementById('avoid-100k-tax-trap').checked;
@@ -57,6 +59,10 @@ document.getElementById("calculate-btn").addEventListener("click", function() {
 
         var employeeContributionVal = currentSalary * employeeContributionPct;
         var employerContributionVal = currentSalary * employerContributionPct;
+        
+        // Calculate the bonus contribution
+        var bonusContributionVal = annualBonus * bonusContributionPct;
+        employeeContributionVal += bonusContributionVal;
 
         // Adjusting employee contribution if the "Avoid 40% Tax" is checked
         if (avoid40Tax && (currentSalary - employeeContributionVal) > INCOME_THRESHOLD_40_PCT) {
@@ -69,10 +75,9 @@ document.getElementById("calculate-btn").addEventListener("click", function() {
         }
 
         var totalContributions = employeeContributionVal + employerContributionVal;
-
-        // Check if total contributions exceed MAX_CONTRIBUTIONS
         if (totalContributions > MAX_CONTRIBUTIONS) {
             totalContributions = MAX_CONTRIBUTIONS;
+            // Readjust the employee contribution if the bonus pushes it over the limit
             employeeContributionVal = MAX_CONTRIBUTIONS - employerContributionVal;
         }
 
@@ -85,7 +90,6 @@ document.getElementById("calculate-btn").addEventListener("click", function() {
             fourPercentGrowth = currentPensionPot * 1.04 + totalContributions;
             sixPercentGrowth = currentPensionPot * 1.06 + totalContributions;
         }
-        
 
         // Update pension pot for next year
         currentPensionPot += totalContributions;
