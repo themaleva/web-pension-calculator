@@ -5,13 +5,12 @@ const MAX_TAX_FREE = 268275;
 
 
 document.getElementById("calculate-btn").addEventListener("click", function() {
-    // Variables to hold data for the chart
-    var labels = [];
-    var currentPensionData = [];
-    var twoPercentGrowthData = [];
-    var fourPercentGrowthData = [];
-    var sixPercentGrowthData = [];
+    calculatePensionProjections();
+    addRowClickEvents();
+});
 
+function calculatePensionProjections() {
+  
     // Inputs from the form
     var currentAge = parseInt(document.getElementById('current-age').value);
     var retirementAge = parseInt(document.getElementById('retirement-age').value);
@@ -42,13 +41,6 @@ document.getElementById("calculate-btn").addEventListener("click", function() {
         alert("Please select only one option between 'Avoid 40% Tax' and 'Avoid £100k tax trap'.");
         return;
     }
-
-    // Reset data arrays
-    labels = [];
-    currentPensionData = [];
-    twoPercentGrowthData = [];
-    fourPercentGrowthData = [];
-    sixPercentGrowthData = [];
 
     // Calculation logic
     for (var age = currentAge; age <= retirementAge; age++) {
@@ -111,8 +103,7 @@ document.getElementById("calculate-btn").addEventListener("click", function() {
         row.insertCell(8).innerText = `£${sixPercentGrowth.toLocaleString('en-GB', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
 
     }
-    addRowClickEvents();
-});
+}
 
 // Add event listeners to rows
 function addRowClickEvents() {
