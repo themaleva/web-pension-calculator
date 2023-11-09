@@ -10,30 +10,77 @@ document.getElementById("calculate-btn").addEventListener("click", function() {
 });
 
 function calculatePensionProjections() {
-    // Inputs from the form
-    var currentAge = parseInt(document.getElementById('current-age').value);
-    var retirementAge = parseInt(document.getElementById('retirement-age').value);
-    var currentSalary = parseFloat(document.getElementById('current-salary').value);
-    var salaryGrowth = parseFloat(document.getElementById('salary-growth').value) / 100;
-    var employeeContributionPct = parseFloat(document.getElementById('employee-contribution').value) / 100;
-    var employerContributionPct = parseFloat(document.getElementById('employer-contribution').value) / 100;
-    var currentPensionPot = parseFloat(document.getElementById('current-pension-pot').value);
+    // Get & Validate inputs from the form
 
-    // Get and check annual bonus value, if ommited set to zero
+    var currentAge = parseInt(document.getElementById('current-age').value);
+    if(currentAge < 16 || currentAge > 100) {
+      alert("Your age should be between 16-100");
+      return;
+    }
+
+    var retirementAge = parseInt(document.getElementById('retirement-age').value);
+    if(retirementAge < currentAge || retirementAge > 100) {
+      alert("Your retirement age should be after your current age and not more than 100");
+      return;
+    }
+
+    var currentSalary = parseFloat(document.getElementById('current-salary').value);
+    if(currentSalary < 0) {
+      alert("You can't have a negative salary!");
+      return;
+    } else if (currentSalary > 10000000) {
+      alert("Salary above £10mil... really?!");
+      return;
+    }
+
+    var employeeContributionPct = parseFloat(document.getElementById('employee-contribution').value) / 100;
+    if (isNaN(employeeContributionPct)) {
+      employeeContributionPct = 0;
+    } else if(employeeContributionPct < 0 || employeeContributionPct > 1) {
+      alert("Employee Contribution % must be between 0-100.");
+      return; 
+    }
+
+    var employerContributionPct = parseFloat(document.getElementById('employer-contribution').value) / 100;
+    if(isNaN(employerContributionPct)) {
+      employerContributionPct = 0;
+    } else if(employerContributionPct < 0 || employerContributionPct > 1) {
+      alert("Employer Contribution % must be between 0-100.");
+      return; 
+    }
+
+    var currentPensionPot = parseFloat(document.getElementById('current-pension-pot').value);
+    if(currentPensionPot < 0) {
+      alert("You can't have a negative pension pot!");
+      return;
+    } else if (currentPensionPot > 50000000) {
+      alert("Pension pot above £50mil... really?!");
+      return;
+    }
+
+    var salaryGrowth = parseFloat(document.getElementById('salary-growth').value) / 100;
+    if(isNaN(salaryGrowth)) {
+      salaryGrowth = 0;
+    } else if(salaryGrowth > 1) {
+      alert("Your salary growth is highly unlikely to more than double every year!");
+      return;
+    }
+
     var annualBonus = parseFloat(document.getElementById('annual-bonus').value);
-    if (isNaN(annualBonus)) {
+    if(isNaN(annualBonus)) {
       annualBonus = 0;
     }
 
-    // Get and check bonus pct value, if ommited set to zero
     var bonusContributionPct = parseFloat(document.getElementById('bonus-contribution').value) / 100;
-    if (isNaN(bonusContributionPct)) {
+    if(isNaN(bonusContributionPct)) {
       bonusContributionPct = 0;
+    } else if (bonusContributionPct < 0 || bonusContributionPct > 1) {
+      alert("Bonus Contribution % must be between 0-100.");
+      return;
     }
 
     var avoid40Tax = document.getElementById('avoid-40-tax').checked;
     var avoid100kTaxTrap = document.getElementById('avoid-100k-tax-trap').checked;
-
     var twoPercentGrowth = 0;
     var fourPercentGrowth = 0;
     var sixPercentGrowth = 0;
