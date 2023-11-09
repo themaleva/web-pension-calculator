@@ -10,7 +10,6 @@ document.getElementById("calculate-btn").addEventListener("click", function() {
 });
 
 function calculatePensionProjections() {
-  
     // Inputs from the form
     var currentAge = parseInt(document.getElementById('current-age').value);
     var retirementAge = parseInt(document.getElementById('retirement-age').value);
@@ -19,8 +18,18 @@ function calculatePensionProjections() {
     var employeeContributionPct = parseFloat(document.getElementById('employee-contribution').value) / 100;
     var employerContributionPct = parseFloat(document.getElementById('employer-contribution').value) / 100;
     var currentPensionPot = parseFloat(document.getElementById('current-pension-pot').value);
+
+    // Get and check annual bonus value, if ommited set to zero
     var annualBonus = parseFloat(document.getElementById('annual-bonus').value);
+    if (isNaN(annualBonus)) {
+      annualBonus = 0;
+    }
+
+    // Get and check bonus pct value, if ommited set to zero
     var bonusContributionPct = parseFloat(document.getElementById('bonus-contribution').value) / 100;
+    if (isNaN(bonusContributionPct)) {
+      bonusContributionPct = 0;
+    }
 
     var avoid40Tax = document.getElementById('avoid-40-tax').checked;
     var avoid100kTaxTrap = document.getElementById('avoid-100k-tax-trap').checked;
