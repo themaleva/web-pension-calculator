@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mortgage Overpayment Calculator</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Mortgage Overpayment Calculator</h1>
+
+        <form id="mortgage-calculator-form">
+            <div class="input-group">
+                <label for="mortgage-balance">Mortgage Balance (£):</label>
+                <input type="number" id="mortgage-balance" name="mortgage-balance" required>
+            </div>
+
+            <div class="input-group">
+                <label for="mortgage-term">Mortgage Term (years):</label>
+                <input type="number" id="mortgage-term" name="mortgage-term" required>
+            </div>
+
+            <div class="input-group">
+                <label>Mortgage Type:</label>
+                <div>
+                    <input type="radio" id="repayment" name="mortgage-type" value="Repayment" checked>
+                    <label for="repayment">Repayment</label>
+                </div>
+                <div>
+                    <input type="radio" id="interest-only" name="mortgage-type" value="Interest Only">
+                    <label for="interest-only">Interest Only</label>
+                </div>
+            </div>
+
+            <div class="input-group">
+                <label for="interest-rate">Interest Rate (%):</label>
+                <input type="number" step="0.01" id="interest-rate" name="interest-rate" required>
+            </div>
+
+            <div class="input-group">
+                <label for="monthly-payment">Monthly Payment (£):</label>
+                <input type="number" id="monthly-payment" name="monthly-payment" required>
+            </div>
+
+            <div class="input-group">
+                <label for="one-off-overpayment">One-Off Overpayment (£):</label>
+                <input type="number" id="one-off-overpayment" name="one-off-overpayment">
+            </div>
+
+            <div class="input-group">
+                <label for="monthly-overpayment">Monthly Overpayment (£):</label>
+                <input type="number" id="monthly-overpayment" name="monthly-overpayment">
+            </div>
+
+            <div class="button-container">
+                <button type="button" id="calculate-btn">Calculate</button>
+            </div>
+        </form>
+
+        <!-- Placeholder for the results -->
+        <div id="results-container" style="display:none;">
+            <h2>Results</h2>
+            <!-- Results will be displayed here -->
+        </div>
+    </div>
+
+    <script src="scripts.js"></script>
+</body>
+</html>
